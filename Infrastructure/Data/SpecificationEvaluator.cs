@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.Data
 {
+    // return IQueryable and Send the Query To GenericRepository
     public class SpecificationEvaluator<TEntity> where TEntity : BaseEntity
     {
         public static IQueryable<TEntity> GetQuery(IQueryable<TEntity> inputQuery, ISpecification<TEntity> spec)
@@ -20,6 +21,26 @@ namespace Infrastructure.Data
                 query = query.Where(spec.Criteria);
             }
 
+            if (spec.OrderBy != null)
+            {
+                query = query.OrderBy(spec.OrderBy);
+            }
+
+            if (spec.OrderByDescending != null)
+            {
+                query = query.OrderByDescending(spec.OrderByDescending);
+            }
+            /*
+            //ordering of this is important
+             ==> because we do not want to page our result before we know what result
+             we are returning
+
+            // paging operator need to be after Filtering and sorting operator 
+            */
+            if (spec.IsPagingEnabled)
+            {
+                query = query.Skip(spec.Skip).Take(spec.Take);
+            }
             query = spec.Includes.Aggregate(query, (current, include) => current.Include(include));
             return query;
         }
