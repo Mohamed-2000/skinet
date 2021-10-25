@@ -25,17 +25,19 @@ namespace API.Middlaware
             _env = env;
         }
 
+        // using middle wares method
         public async Task InvokeAsync(HttpContext context)
         {
             try
             {
-                // if there is no Exception then request move on to next stage
+                // if there is no Exception then request move to the next piece of middle ware
                 await _next(context);
             }
             catch (Exception ex)
             {
 
                 _logger.LogError(ex, ex.Message);
+                //write our own response into the context response so that we can send it to the client
                 context.Response.ContentType = "application/json";
                 // Set the status code to be 500
                 context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
@@ -45,6 +47,7 @@ namespace API.Middlaware
                     ex.StackTrace.ToString())
                     : new ApiException((int)HttpStatusCode.InternalServerError, ex.Message);
 
+                //convert json response to CamelCase rather than pascal case
                 var options = new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase };
 
                 var json = JsonSerializer.Serialize(response, options);
