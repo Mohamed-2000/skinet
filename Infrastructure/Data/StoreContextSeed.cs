@@ -18,7 +18,8 @@ namespace Infrastructure.Data
             {
                 if (!context.ProductBrands.Any())
                 {
-                    var brandsData = File.ReadAllText("../Infrastructure/Data/SeedingData/brands.json");
+                    var brandsData = 
+                        File.ReadAllText("../Infrastructure/Data/SeedingData/brands.json");
 
                     //serialize JSON Data To ProductBrand object
 
