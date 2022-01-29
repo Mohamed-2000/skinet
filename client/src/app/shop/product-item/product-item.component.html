@@ -1,7 +1,7 @@
 <div class="card h-100 shadow-sm">
   <img src="{{product.pictureUrl}}" alt="{{product.name}}" class="img-fluid bg-info">
   <div class="card-body d-lex flex-column">
-    <a href="#">
+    <a routerLink="/shop/{{product.id}}">
       <h6 class="text-uppercase">{{product.name}}</h6>
     </a>
     <div>
@@ -9,7 +9,7 @@
     </div>
       <div class="btn-group mt-3 col-12">
         <button type="button" class="btn btn-outline-secondary fa fa-shopping-cart me-2 col-5"></button>
-        <button type="button" class="btn btn-outline-secondary col-5">View</button>
+        <button routerLink="/shop/{{product.id}}"   type="button" class="btn btn-outline-secondary col-5">View</button>
       </div>
   </div>
 </div>

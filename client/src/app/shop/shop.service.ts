@@ -5,6 +5,7 @@ import { IPagination } from '../shared/models/pagination';
 import { IType } from '../shared/models/productType';
 import {delay, map} from 'rxjs/operators';
 import { ShopParams } from '../shared/models/shopParams';
+import { IProduct } from '../shared/models/product';
 // services need to be decorated with injectable decorator
 @Injectable({
   providedIn: 'root'
@@ -43,6 +44,11 @@ export class ShopService {
         })
       )
 
+  }
+
+
+  getProduct(id: number) {
+    return this.http.get<IProduct>(this.baseUrl + 'products/' + id);
   }
   getBrands() {
     // return  the body of the response
